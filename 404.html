@@ -92,7 +92,7 @@
             margin: 0 auto;
         }
 
-        /* --- 5. ACTION BUTTONS (Styles Unchanged) --- */
+        /* --- 5. ACTION BUTTONS & REDIRECT MESSAGE --- */
         .action-buttons {
             display: grid;
             grid-template-columns: 1fr;
@@ -134,6 +134,11 @@
             border-color: var(--light-text-secondary);
             color: var(--light-text-primary);
         }
+        .redirect-message {
+            margin-top: 24px;
+            font-size: 14px;
+            color: var(--light-text-secondary);
+        }
 
         /* --- 6. MOBILE RESPONSIVE STYLES --- */
         @media (max-width: 576px) {
@@ -162,7 +167,7 @@
                 <p class="card-subtitle">The Paper ID you entered does not match our records. Please double-check the ID and try again.</p>
             </header>
             <div class="action-buttons">
-                <a href="/verify" class="action-button btn-primary">
+                <a href="/" class="action-button btn-primary">
                     <span class="material-symbols-outlined">restart_alt</span>
                     Try Again
                 </a>
@@ -171,7 +176,37 @@
                     Contact Support
                 </a>
             </div>
+            <p class="redirect-message">You will be redirected to the homepage in <span id="countdown">10</span> seconds.</p>
         </div>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const countdownElement = document.getElementById('countdown');
+            let seconds = 10;
+
+            // Function to update the countdown display
+            function updateCountdown() {
+                if(countdownElement) {
+                    countdownElement.textContent = seconds;
+                }
+                seconds--;
+            }
+
+            // Initial call to display 10 immediately
+            updateCountdown();
+
+            // Set an interval to update the countdown every second
+            const intervalId = setInterval(function() {
+                if (seconds < 0) {
+                    clearInterval(intervalId);
+                    // Redirect to the landing page when the countdown finishes
+                    window.location.href = '/';
+                } else {
+                    updateCountdown();
+                }
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
